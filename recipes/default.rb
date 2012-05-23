@@ -10,16 +10,31 @@
 # PG Pool requires postgreql 
 include_recipe "postgresql::client"
 
+if Chef::Config[:chef_solo] 
+	dbmaster = { 
+		'ipaddress' => "...",
+		'postgresql' => {
+			'port' => "5432" 
+			}
+		}
+else
+	nodes = []
+	found = search(:node, 'role:db-server')
+	Chef::Log.info ("Found nodes for db-server: #{found.inspect}")
+	dbmaster = found[0]
+end
+
+
 package "pgpool2" do
 	action :install
 end
-
 
 template "/etc/pgpool2/pgpool.conf" do
 	source "pgpool.conf.erb"
 	owner "root"
 	group "root"
 	mode "0644"
+	variables({ :db => dbmaster })
 	notifies :restart, "service[pgpool2]"
 end
 

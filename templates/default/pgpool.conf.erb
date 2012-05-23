@@ -52,8 +52,8 @@ pcp_socket_dir = '/var/run/postgresql'
 # - Backend Connection Settings -
 
 # nur temporär...
-backend_hostname0 = 'localhost'
-backend_port0 = <%= node['postgresql']['port'] %>
+backend_hostname0 = '<%= @db['ipaddress'] %>'
+backend_port0 = <%= @db['postgresql']['port'] %>
 
 #backend_hostname0 = 'host1'
                                    # Host name or IP address to connect to for backend 0
