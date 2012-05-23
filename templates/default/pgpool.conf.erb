@@ -24,11 +24,11 @@
 
 # - pgpool Connection Settings -
 
-listen_addresses = 'localhost'
+listen_addresses = '*'
                                    # Host name or IP address to listen on:
                                    # '*' for all, '' for no TCP/IP connections
                                    # (change requires restart)
-port = 5432
+port = <%= node['pgpool2']['port'] %>
                                    # Port number
                                    # (change requires restart)
 socket_dir = '/var/run/postgresql'
@@ -244,7 +244,7 @@ failover_if_affected_tuples_mismatch = off
 # LOAD BALANCING MODE
 #------------------------------------------------------------------------------
 
-load_balance_mode = off
+load_balance_mode = <%= node['pgpool2']['load_balance_mode'] %>
                                    # Activate load balancing mode
                                    # (change requires restart)
 ignore_leading_white_space = on
@@ -263,10 +263,10 @@ black_function_list = 'nextval,setval'
 # MASTER/SLAVE MODE
 #------------------------------------------------------------------------------
 
-master_slave_mode = off
+master_slave_mode = <%= node['pgpool2']['master_slave_mode'] %>
                                    # Activate master/slave mode
                                    # (change requires restart)
-master_slave_sub_mode = 'slony'
+master_slave_sub_mode = <%= node['pgpool2']['master_slave_sub_mode'] %>
                                    # Master/slave sub mode
                                    # Valid values are combinations slony or
                                    # stream. Default is slony.
